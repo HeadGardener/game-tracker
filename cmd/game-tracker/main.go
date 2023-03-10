@@ -18,7 +18,7 @@ func main() {
 
 	dbconfig, err := configs.NewDBConfig(*confPath)
 	if err != nil {
-		logger.Fatal(fmt.Sprintf("unable to read config file, error:%d", err))
+		logger.Fatal(fmt.Sprintf("unable to read config file, error:%e", err))
 	}
 
 	dbConn, err := repositories.NewDBConn(*dbconfig)
@@ -34,7 +34,8 @@ func main() {
 	if err != nil {
 		logger.Fatal(fmt.Sprintf("unable to read config file, error:%d", err))
 	}
-	srv := server.New(*logger)
+
+	srv := server.Server{}
 	if err := srv.Run(srvconfig.ServerPort, handler.InitRoutes()); err != nil {
 		// change later
 		logger.Fatal(fmt.Sprintf("error occurring while running server, err:%d", err))

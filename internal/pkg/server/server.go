@@ -2,20 +2,12 @@ package server
 
 import (
 	"context"
-	"go.uber.org/zap"
 	"net/http"
 	"time"
 )
 
 type Server struct {
 	httpServer *http.Server
-	logger     zap.Logger
-}
-
-func New(logger zap.Logger) *Server {
-	return &Server{
-		logger: logger,
-	}
 }
 
 func (s *Server) Run(port string, handler http.Handler) error {
