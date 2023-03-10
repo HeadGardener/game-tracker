@@ -12,7 +12,7 @@ import (
 
 const (
 	salt      = "qetuoadgjlzcbmwryipsfhkxvn"
-	tokenTTL  = 12 * time.Hour
+	tokenTTL  = 2 * time.Hour
 	secretKey = "qazwsxedcrfvtgbyhnujm"
 )
 

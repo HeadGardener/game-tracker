@@ -12,7 +12,11 @@ type Authorization interface {
 }
 
 type GameInterface interface {
-	Create(userID int, gameInput models.CreateGameInput) (int, error)
+	Create(userID int, gameInput models.CreateGame) (int, error)
+	GetAll(userID int) ([]models.Game, error)
+	GetByID(userID, gameID int) (models.Game, error)
+	Update(userID int, gameInput models.UpdateGame) error
+	Delete(userID, gameID int) error
 }
 
 type Service struct {

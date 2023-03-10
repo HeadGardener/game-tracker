@@ -12,7 +12,7 @@ func (h *Handler) signUp(w http.ResponseWriter, r *http.Request) {
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		errMsg := "invalid data to decode user"
-		newErrResponse(w, http.StatusBadRequest, errMsg)
+		h.newErrResponse(w, http.StatusBadRequest, errMsg)
 		return
 	}
 
@@ -20,7 +20,7 @@ func (h *Handler) signUp(w http.ResponseWriter, r *http.Request) {
 
 	id, err := h.service.Authorization.Create(user)
 	if err != nil {
-		newErrResponse(w, http.StatusInternalServerError, err.Error())
+		h.newErrResponse(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
@@ -34,7 +34,7 @@ func (h *Handler) signIn(w http.ResponseWriter, r *http.Request) {
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		errMsg := "invalid data to decode user"
-		newErrResponse(w, http.StatusBadRequest, errMsg)
+		h.newErrResponse(w, http.StatusBadRequest, errMsg)
 		return
 	}
 
@@ -42,7 +42,7 @@ func (h *Handler) signIn(w http.ResponseWriter, r *http.Request) {
 
 	token, err := h.service.Authorization.GenerateToken(user)
 	if err != nil {
-		newErrResponse(w, http.StatusInternalServerError, err.Error())
+		h.newErrResponse(w, http.StatusInternalServerError, err.Error())
 		return
 	}
 
