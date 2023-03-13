@@ -11,12 +11,16 @@ func (h *Handler) signUp(w http.ResponseWriter, r *http.Request) {
 	var user models.RegUserInput
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		errMsg := "invalid data to decode user"
-		h.newErrResponse(w, http.StatusBadRequest, errMsg)
+		h.newErrResponse(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	defer r.Body.Close()
+
+	if err := user.Validate(); err != nil {
+		h.newErrResponse(w, http.StatusBadRequest, err.Error())
+		return
+	}
 
 	id, err := h.service.Authorization.Create(user)
 	if err != nil {
@@ -25,7 +29,7 @@ func (h *Handler) signUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newResponse(w, http.StatusCreated, map[string]interface{}{
-		"info": fmt.Sprintf("user with id %d created", id),
+		"id": id,
 	})
 }
 
@@ -33,12 +37,16 @@ func (h *Handler) signIn(w http.ResponseWriter, r *http.Request) {
 	var user models.LogUserInput
 
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		errMsg := "invalid data to decode user"
-		h.newErrResponse(w, http.StatusBadRequest, errMsg)
+		h.newErrResponse(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	defer r.Body.Close()
+
+	if err := user.Validate(); err != nil {
+		h.newErrResponse(w, http.StatusBadRequest, err.Error())
+		return
+	}
 
 	token, err := h.service.Authorization.GenerateToken(user)
 	if err != nil {

@@ -19,11 +19,16 @@ func (h *Handler) createGame(w http.ResponseWriter, r *http.Request) {
 	var game models.CreateGame
 
 	if err := json.NewDecoder(r.Body).Decode(&game); err != nil {
-		h.newErrResponse(w, http.StatusBadRequest, "invalid data to bind game")
+		h.newErrResponse(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	defer r.Body.Close()
+
+	if err := game.Validate(); err != nil {
+		h.newErrResponse(w, http.StatusBadRequest, err.Error())
+		return
+	}
 
 	gameID, err := h.service.GameInterface.Create(userID, game)
 	if err != nil {
@@ -32,7 +37,7 @@ func (h *Handler) createGame(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newResponse(w, http.StatusCreated, map[string]interface{}{
-		"info": fmt.Sprintf("game with id %d created", gameID),
+		"id": gameID,
 	})
 }
 

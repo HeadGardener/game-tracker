@@ -40,7 +40,7 @@ func (h *Handler) InitRoutes() http.Handler {
 
 	// game
 	r.Route("/game-tracker", func(r chi.Router) {
-		r.Use(h.IdentifyUser)
+		r.Use(h.identifyUser)
 		r.Post("/", h.createGame)
 		r.Get("/", h.getAllGames)
 		r.Get("/{game_id}", h.getGameByID)

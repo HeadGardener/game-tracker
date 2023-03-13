@@ -5,6 +5,8 @@ import (
 	"github.com/HeadGardener/game-tracker/internal/app/repositories"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type Authorization interface {
 	Create(userInput models.RegUserInput) (int, error)
 	GenerateToken(userInput models.LogUserInput) (string, error)

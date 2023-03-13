@@ -30,10 +30,6 @@ type tokenClaims struct {
 }
 
 func (s *AuthService) Create(userInput models.RegUserInput) (int, error) {
-	if err := userInput.Validate(); err != nil {
-		return 0, err
-	}
-
 	user := models.User{
 		Name:         userInput.Name,
 		Username:     userInput.Username,
@@ -44,10 +40,6 @@ func (s *AuthService) Create(userInput models.RegUserInput) (int, error) {
 }
 
 func (s *AuthService) GenerateToken(userInput models.LogUserInput) (string, error) {
-	if err := userInput.Validate(); err != nil {
-		return "", err
-	}
-
 	user := models.User{
 		Username:     userInput.Username,
 		PasswordHash: getPasswordHash(userInput.Password),

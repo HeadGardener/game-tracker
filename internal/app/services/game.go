@@ -15,10 +15,6 @@ func NewGameService(repos *repositories.Repository) *GameService {
 }
 
 func (s *GameService) Create(userID int, gameInput models.CreateGame) (int, error) {
-	if err := gameInput.Validate(); err != nil {
-		return 0, err
-	}
-
 	game := models.Game{
 		Title:    gameInput.Title,
 		Platform: gameInput.Platform,
